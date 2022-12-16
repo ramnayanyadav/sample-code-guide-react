@@ -866,7 +866,7 @@ const Home = () => {
 
   messageTypes = [
     ...messageTypes,
-    textTemplate,
+    // textTemplate,
     paymentTemplate,
     // gifCustomTemplate,
     // giphyCustomTemplate,
