@@ -2,11 +2,7 @@ import React from "react";
 
 import {
   CometChatMessages,
-  MessagesConfiguration,
   MessageListConfiguration,
-  CometChatMessageList,
-  CometChatTheme,
-  CometChatConversationsWithMessages,
 } from "react-ui-kit-testing";
 
 import audio from "./resources/audio.mp3";
@@ -25,8 +21,6 @@ const CustomSoundManager = (props) => {
   const composerConfig = {
     customOutgoingMessageSound: audio,
   };
-
-  let listConfig = new MessageListConfiguration({});
 
   Hook(setGroup, setUser);
 

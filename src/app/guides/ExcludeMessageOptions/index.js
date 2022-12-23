@@ -545,10 +545,10 @@ const ExcludeMessageOptions = () => {
       </div>
       <div style={buttonContainerStyle()}>
         <button onClick={defaultHandler} style={buttonStyle()}>
-          default
+          default options
         </button>
         <button onClick={customHandler} style={buttonStyle()}>
-          custom
+          custom options
         </button>
       </div>
     </div>
