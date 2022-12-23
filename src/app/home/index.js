@@ -864,6 +864,17 @@ const Home = () => {
     onActionClick: liveStreaming,
   });
 
+  let customMessageTypes = [
+    ...messageTypes,
+    paymentTemplate,
+    gifCustomTemplate,
+    giphyCustomTemplate,
+    bitlyCustomTemplate,
+    tinyurlCustomTemplate,
+    stipopCustomTemplate,
+    liveStreamCustomTemplate,
+  ];
+
   messageTypes = [
     ...messageTypes,
     // textTemplate,
@@ -931,7 +942,7 @@ const Home = () => {
         </NavLink>
         <NavLink
           title="message types"
-          to="/types"
+          to="/message-types"
           className="nav-link"
           style={navLinkStyle()}
         >
@@ -976,11 +987,11 @@ const Home = () => {
         <Route exact path="/options" element={<ExcludeMessageOptions />} />
         <Route
           exact
-          path="/types"
+          path="/message-types"
           element={
             <CustomMessageTypes
               user={user}
-              messageTypes={messageTypes}
+              messageTypes={customMessageTypes}
               launchGfy={launchGfy}
               paymentMessageComponent={paymentMessageComponent}
               payment={launchPayment}

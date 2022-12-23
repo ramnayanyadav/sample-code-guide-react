@@ -19,6 +19,12 @@ import {
   pinnedMessageTextStyle,
 } from "./style";
 
+import {
+  alignmentContainerStyle,
+  buttonContainerStyle,
+  buttonStyle,
+} from "../MessageAlignment/style.js";
+
 import { Hook } from "./hook";
 
 import { getUnixTimestamp, ID } from "../../home/MessageConstant";
@@ -40,6 +46,16 @@ const ExcludeMessageOptions = () => {
   const [launchReport, setReport] = React.useState(false);
   const [launchMessageInfo, setMessageInfo] = React.useState(false);
   const inputReport = React.useRef("");
+
+  const [bool, setBool] = React.useState(false);
+
+  const customHandler = () => {
+    setBool(true);
+  };
+
+  const defaultHandler = () => {
+    setBool(false);
+  };
 
   const date = React.useRef("");
   const time = React.useRef("");
@@ -438,24 +454,32 @@ const ExcludeMessageOptions = () => {
     // MessageOptionConstants.reactToMessage,
     MessageOptionConstants.editMessage,
     MessageOptionConstants.deleteMessage,
-    MessageOptionConstants.copyMessage,
+    // MessageOptionConstants.copyMessage,
     MessageOptionConstants.translateMessage,
   ];
 
   const customMessageOptions = [
-    // MessageOptionConstants.reactToMessage,
-    // MessageOptionConstants.editMessage,
-    // MessageOptionConstants.deleteMessage,
-    // MessageOptionConstants.copyMessage,
-    // MessageOptionConstants.translateMessage,
+    MessageOptionConstants.reactToMessage,
+    MessageOptionConstants.editMessage,
+    MessageOptionConstants.deleteMessage,
+    MessageOptionConstants.copyMessage,
+    MessageOptionConstants.translateMessage,
     reminderMessage,
-    //saveOption,
-    //pinnedOption,
-    // reportMessage,
-    // messageInformation,
+    saveOption,
+    pinnedOption,
+    reportMessage,
+    messageInformation,
     customMessageOption,
   ];
 
+  let defaultOptions = [
+    MessageOptionConstants.reactToMessage,
+    MessageOptionConstants.editMessage,
+    MessageOptionConstants.deleteMessage,
+    MessageOptionConstants.copyMessage,
+    MessageOptionConstants.translateMessage,
+    reminderMessage,
+  ];
   //let messageTypes = [];
   let messageTypes = CometChatMessageTemplate.getDefaultTypes();
   let reminderCustomMessageTemplate = new CometChatMessageTemplate({
@@ -481,42 +505,52 @@ const ExcludeMessageOptions = () => {
   Hook(setGroup, setUser);
 
   return user ? (
-    <div>
-      {pinnedMsg ? <>{pinnedMessageView}</> : null}
-      <CometChatMessageList
-        user={user}
-        style={{ width: "650px", height: "450px" }}
-        alignment={"standard"} //['standard','leftAligned']
-        excludeMessageOptions={excludeMessageOptions}
-        customMessageOptions={customMessageOptions}
-        excludeMessageTypes={excludeMessageTypes}
-        sentMessageInputData={{
-          thumbnail: false,
-          title: false,
-          time: true,
-          readReceipt: true,
-        }}
-        messageTypes={messageTypes}
-        messageBubbleConfiguration={messageBubbleConfig}
-      />
+    <div style={alignmentContainerStyle()}>
+      <div>
+        {pinnedMsg ? <>{pinnedMessageView}</> : null}
+        <CometChatMessageList
+          user={user}
+          style={{ width: "650px", height: "450px", border: "1px solid black" }}
+          alignment={"standard"} //['standard','leftAligned']
+          excludeMessageOptions={bool ? excludeMessageOptions : null}
+          customMessageOptions={bool ? customMessageOptions : null}
+          excludeMessageTypes={excludeMessageTypes}
+          sentMessageInputData={{
+            thumbnail: false,
+            title: false,
+            time: true,
+            readReceipt: true,
+          }}
+          messageTypes={messageTypes}
+          messageBubbleConfiguration={messageBubbleConfig}
+        />
 
-      {launchReminder ? (
-        <CometChatPopover position="left" x="750" y="350">
-          {customViewSetDate}
-        </CometChatPopover>
-      ) : null}
+        {launchReminder ? (
+          <CometChatPopover position="left" x="750" y="350">
+            {customViewSetDate}
+          </CometChatPopover>
+        ) : null}
 
-      {launchReport ? (
-        <CometChatPopover position="left" x="650" y="350">
-          {reportMessageView}
-        </CometChatPopover>
-      ) : null}
+        {launchReport ? (
+          <CometChatPopover position="left" x="650" y="350">
+            {reportMessageView}
+          </CometChatPopover>
+        ) : null}
 
-      {launchMessageInfo ? (
-        <CometChatPopover position="left" x="600" y="230">
-          {messageInfoView(messageObject)}
-        </CometChatPopover>
-      ) : null}
+        {launchMessageInfo ? (
+          <CometChatPopover position="left" x="600" y="230">
+            {messageInfoView(messageObject)}
+          </CometChatPopover>
+        ) : null}
+      </div>
+      <div style={buttonContainerStyle()}>
+        <button onClick={defaultHandler} style={buttonStyle()}>
+          default
+        </button>
+        <button onClick={customHandler} style={buttonStyle()}>
+          custom
+        </button>
+      </div>
     </div>
   ) : null;
 };

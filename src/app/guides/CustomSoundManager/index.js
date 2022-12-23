@@ -36,7 +36,11 @@ const CustomSoundManager = (props) => {
         user={_user}
         group={_group}
         alignment={"standard"}
-        style={{ width: "700px", height: "500px" }}
+        style={{
+          width: "600px",
+          overflow: "none",
+          border: "1px solid black",
+        }}
         messageTypes={props?.messageTypes}
         messageComposerConfiguration={composerConfig}
         messageListConfiguration={messageListConfig}

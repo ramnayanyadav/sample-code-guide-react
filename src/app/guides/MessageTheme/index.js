@@ -5,11 +5,27 @@ import {
   Palette,
 } from "react-ui-kit-testing";
 
+import {
+  alignmentContainerStyle,
+  buttonContainerStyle,
+  buttonStyle,
+} from "../MessageAlignment/style.js";
+
 import { Hook } from "./hook";
 
 const MessageTheme = () => {
   const [user, setUser] = React.useState(null);
   const [group, setGroup] = React.useState(null);
+
+  const [bool, setTheme] = React.useState(false);
+
+  const customAlignmentHandler = () => {
+    setTheme(false);
+  };
+
+  const defaultAlignmentHandler = () => {
+    setTheme(true);
+  };
 
   const theme = new CometChatTheme({
     palette: new Palette({
@@ -52,12 +68,23 @@ const MessageTheme = () => {
 
   Hook(setGroup, setUser);
   return user ? (
-    <CometChatConversationsWithMessages
-      style={{ width: "750px", height: "450px" }}
-      user={user}
-      group={group}
-      theme={theme}
-    />
+    <div style={alignmentContainerStyle()}>
+      <div>
+        <CometChatConversationsWithMessages
+          user={user}
+          style={{ width: "700px", height: "400px", border: "1px solid black" }}
+          theme={!bool ? theme : null}
+        />
+      </div>
+      <div style={buttonContainerStyle()}>
+        <button onClick={defaultAlignmentHandler} style={buttonStyle()}>
+          default theme
+        </button>
+        <button onClick={customAlignmentHandler} style={buttonStyle()}>
+          custom theme
+        </button>
+      </div>
+    </div>
   ) : null;
 };
 

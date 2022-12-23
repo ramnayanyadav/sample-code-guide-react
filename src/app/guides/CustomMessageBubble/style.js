@@ -3,9 +3,11 @@ export const messageTextStyle = (linkPreviewData) => {
 
   return {
     display: prop,
-    color: "rgb(20,20,20)",
     padding: "8px",
-    background: "transparent",
+    textTransform: "capitalize",
+    color: "red",
+    background: "#d4a373",
+    borderRadius: "5px 5px 5px 0 ",
   };
 };
 

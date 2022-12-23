@@ -17,10 +17,26 @@ import {
   linkPreviewStyle,
 } from "./style";
 
+import {
+  alignmentContainerStyle,
+  buttonContainerStyle,
+  buttonStyle,
+} from "../MessageAlignment/style.js";
+
 const CustomMessageBubble = (props) => {
   const [user, setUser] = React.useState(null);
   const [group, setGroup] = React.useState(null);
   //const [richMediaObject, setLinkPreviewObject] = React.useState();
+
+  const [bool, setBool] = React.useState(false);
+
+  const customBubbleHandler = () => {
+    setBool(true);
+  };
+
+  const defaultBubbleHandler = () => {
+    setBool(false);
+  };
 
   const richMediaObject = React.useRef();
   let messageTypes = CometChatMessageTemplate.getDefaultTypes();
@@ -88,33 +104,46 @@ const CustomMessageBubble = (props) => {
     );
   };
 
+  let customMessageTypes = [
+    new CometChatMessageTemplate({
+      type: "text",
+      icon: "",
+      name: "Text",
+      category: "messsages",
+      customView: customViewTextBubble,
+      // onActionClick: null,
+    }),
+    new CometChatMessageTemplate({
+      type: "payment",
+      icon: "",
+      name: "Payment",
+      category: "custom-message",
+      customView: customViewPayment,
+      // onActionClick: onActionClickPayment,
+    }),
+    ...messageTypes,
+  ];
+
   Hook(setGroup, setUser);
 
   return user ? (
-    <CometChatMessageList
-      user={user}
-      style={{ width: "700px", height: "450px" }}
-      // messageTypes={props?.messageTypes}
-      messageTypes={[
-        new CometChatMessageTemplate({
-          type: "text",
-          icon: "",
-          name: "Text",
-          category: "messsages",
-          customView: customViewTextBubble,
-          // onActionClick: null,
-        }),
-        new CometChatMessageTemplate({
-          type: "payment",
-          icon: "",
-          name: "Payment",
-          category: "custom-message",
-          customView: customViewPayment,
-          // onActionClick: onActionClickPayment,
-        }),
-        ...messageTypes,
-      ]}
-    />
+    <div style={alignmentContainerStyle()}>
+      <div>
+        <CometChatMessageList
+          user={user}
+          style={{ width: "700px", height: "400px", border: "1px solid black" }}
+          messageTypes={bool ? customMessageTypes : null}
+        />
+      </div>
+      <div style={buttonContainerStyle()}>
+        <button onClick={defaultBubbleHandler} style={buttonStyle()}>
+          default bubble
+        </button>
+        <button onClick={customBubbleHandler} style={buttonStyle()}>
+          custom bubble
+        </button>
+      </div>
+    </div>
   ) : null;
 };
 

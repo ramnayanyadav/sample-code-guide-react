@@ -7,38 +7,40 @@ import {
 import { Hook } from "./hook";
 import { CometChatMessages } from "react-ui-kit-testing";
 
+import {
+  alignmentContainerStyle,
+  buttonContainerStyle,
+  buttonStyle,
+} from "../MessageAlignment/style.js";
+
 const ExcludeMessageTypes = () => {
   const [user, setUser] = React.useState(null);
   const [group, setGroup] = React.useState(null);
 
+  const [bool, setBool] = React.useState(false);
+
+  const [, updateState] = React.useState();
+  const forceUpdate = React.useCallback(() => updateState({}), []);
+
+  const customHandler = () => {
+    setBool(true);
+    //forceUpdate();
+  };
+
+  const defaultHandler = () => {
+    setBool(false);
+    //forceUpdate();
+  };
+
   const _excludeMessageTypes = [
-    // MessageTypeConstants.image,
+    MessageTypeConstants.image,
     MessageTypeConstants.file,
     // MessageTypeConstants.poll,
     MessageTypeConstants.document,
   ];
 
-  const messageConfig = {
-    sentMessageInputData: {
-      thumbnail: false,
-      title: false,
-      time: true,
-      readReceipt: true,
-    },
-    receivedMessageInputData: {
-      thumbnail: true,
-      title: true,
-      time: true,
-      readReceipt: false,
-    },
-    excludeMessageType: [
-      MessageTypeConstants.text,
-      MessageTypeConstants.image,
-      MessageTypeConstants.file,
-      MessageTypeConstants.poll,
-      MessageTypeConstants.sticker,
-      MessageTypeConstants.document,
-    ],
+  let composerConfig = {
+    excludeMessageTypes: _excludeMessageTypes,
   };
 
   let messageTypes = CometChatMessageTemplate.getDefaultTypes();
@@ -49,10 +51,10 @@ const ExcludeMessageTypes = () => {
     // customView: this.customView,
     //actionCallback: this.openPaymentTab,
   });
-  // messageTypes.push(paymentTemplate);
+  messageTypes.push(paymentTemplate);
 
-  const composerConfig = {
-    excludeMessageTypes: _excludeMessageTypes,
+  const defaultComposerConfig = {
+    excludeMessageTypes: messageTypes,
   };
 
   const messageListConfig = {
@@ -88,13 +90,41 @@ const ExcludeMessageTypes = () => {
   Hook(setGroup, setUser);
 
   return user ? (
-    <CometChatMessages
-      user={user}
-      alignment={"standard"} //standard, leftAligned
-      style={{ width: "750px", height: "500px" }}
-      messageListConfiguration={messageListConfig}
-      messageComposerConfiguration={composerConfig}
-    />
+    <div style={alignmentContainerStyle()}>
+      {bool ? (
+        <div>
+          <CometChatMessages
+            user={user}
+            style={{
+              width: "700px",
+              height: "400px",
+              border: "1px solid red",
+            }}
+            messageComposerConfiguration={composerConfig}
+          />
+        </div>
+      ) : (
+        <div>
+          <CometChatMessages
+            user={user}
+            style={{
+              width: "700px",
+              height: "400px",
+              border: "1px solid black",
+            }}
+            messageComposerConfiguration={null}
+          />
+        </div>
+      )}
+      <div style={buttonContainerStyle()}>
+        <button onClick={defaultHandler} style={buttonStyle()}>
+          default message
+        </button>
+        <button onClick={customHandler} style={buttonStyle()}>
+          exclude message
+        </button>
+      </div>
+    </div>
   ) : null;
 };
 

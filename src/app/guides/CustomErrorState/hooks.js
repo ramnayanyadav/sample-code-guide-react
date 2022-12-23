@@ -1,7 +1,9 @@
 import React from "react";
 import { CometChat } from "@cometchat-pro/chat";
 
-const Hook = (setGroup, setUser) => {
+//import audio from "./resources/audio.mp3";
+
+const Hooks = (setUser, setGroup) => {
   React.useEffect(() => {
     /**
      * fetching perticular group
@@ -10,10 +12,9 @@ const Hook = (setGroup, setUser) => {
     CometChat.getGroup(GUID).then(
       (group) => {
         setGroup(group);
-        //console.log("Group details fetched successfully:", group);
       },
       (error) => {
-        //console.log("Group details fetching failed with exception:", error);
+        console.error(error);
       }
     );
 
@@ -24,10 +25,9 @@ const Hook = (setGroup, setUser) => {
     CometChat.getUser(UID).then(
       (user) => {
         setUser(user);
-        //console.log("User details fetched for user:", user);
       },
       (error) => {
-        // console.log("User details fetching failed with error:", error);
+        console.error(error);
       }
     );
     // CometChat.logout().then(
@@ -41,4 +41,4 @@ const Hook = (setGroup, setUser) => {
   }, []);
 };
 
-export { Hook };
+export { Hooks };
